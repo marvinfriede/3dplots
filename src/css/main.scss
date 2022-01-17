@@ -1,0 +1,78 @@
+@import "_breakpoints.scss";
+
+/*-------------------------------------------------
+-------------------- global -----------------------
+--------------------------------------------------*/
+
+html {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  position: relative;
+  min-height: 100vh;
+}
+
+/*-------------------------------------------------
+-------------------- content ----------------------
+--------------------------------------------------*/
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 2em 0;
+}
+
+.plot {
+  border: 3px solid #1e1e1e;
+  border-radius: 10px;
+  margin: auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------
+------------------- max-width ---------------------
+------------------------------------------------ */
+
+.content {
+  display: -ms-flexbox !important;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-top: 0;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+}
+
+.has-max-width {
+  max-width: 90%;
+}
+@media (min-width: $bp-s) {
+  .has-max-width {
+    max-width: calc(100% - 50px);
+  }
+}
+@media (min-width: $bp-n) {
+  .has-max-width {
+    max-width: calc(100% - 70px);
+  }
+}
+@media (min-width: $bp-l) {
+  .has-max-width {
+    max-width: calc(100% - 90px);
+  }
+}
+@media (min-width: $bp-xl) {
+  .has-max-width {
+    max-width: 80%;
+  }
+}
