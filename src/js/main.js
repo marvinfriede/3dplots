@@ -42,14 +42,15 @@ const getMax = (a, b) => Math.max(Math.max(...a), Math.max(...b));
  * Where the actual plotting happens.
  */
 const initd3 = async () => {
-  const data = await csv("data/mfit2.csv");
+  const mfit2 = await csv("data/mfit2.csv");
+  const bfgs = await csv("data/wb97m_fit_nlopt_LBFGS_params.csv");
 
-  const s8start = unpack(data, "s8-start");
-  const a1start = unpack(data, "a1-start");
-  const a2start = unpack(data, "a2-start");
-  const s8final = unpack(data, "s8-final");
-  const a1final = unpack(data, "a1-final");
-  const a2final = unpack(data, "a2-final");
+  const s8start = unpack(mfit2, "s8-start");
+  const a1start = unpack(mfit2, "a1-start");
+  const a2start = unpack(mfit2, "a2-start");
+  const s8final = unpack(mfit2, "s8-final");
+  const a1final = unpack(mfit2, "a1-final");
+  const a2final = unpack(mfit2, "a2-final");
 
   const trace1 = {
     x: s8start,
@@ -71,10 +72,28 @@ const initd3 = async () => {
     x: s8final,
     y: a1final,
     z: a2final,
-    name: "optimized",
+    name: "mfit2",
     mode: "markers",
     marker: {
       color: COLOR.tubafred,
+      size: 6,
+      symbol: "circle",
+      line: {
+        color: COLOR.gray,
+        width: 1,
+      },
+      opacity: 0.8,
+    },
+    type: "scatter3d",
+  };
+  const trace3 = {
+    x: unpack(bfgs, "s8-final"),
+    y: unpack(bfgs, "a1-final"),
+    z: unpack(bfgs, "a2-final"),
+    name: "BFGS",
+    mode: "markers",
+    marker: {
+      color: COLOR.tubaforange,
       size: 6,
       symbol: "circle",
       line: {
@@ -140,7 +159,7 @@ const initd3 = async () => {
     responsive: true,
   };
 
-  Plotly.newPlot("d4fit", [trace1, trace2, ref], layout, config);
+  Plotly.newPlot("d4fit", [trace1, trace2, trace3, ref], layout, config);
 };
 
 // ---------------------------------------------------
