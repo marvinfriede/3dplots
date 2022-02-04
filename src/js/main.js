@@ -44,6 +44,7 @@ const getMax = (a, b) => Math.max(Math.max(...a), Math.max(...b));
 const initd3 = async () => {
   const mfit2 = await csv("data/mfit2.csv");
   const bfgs = await csv("data/wb97m_fit_nlopt_LBFGS_params.csv");
+  const bobyqa = await csv("data/wb97m_fit_nlopt_BOBYQA_params.csv");
 
   const s8start = unpack(mfit2, "s8-start");
   const a1start = unpack(mfit2, "a1-start");
@@ -90,10 +91,28 @@ const initd3 = async () => {
     x: unpack(bfgs, "s8-final"),
     y: unpack(bfgs, "a1-final"),
     z: unpack(bfgs, "a2-final"),
-    name: "BFGS",
+    name: "LD_LBFGS",
     mode: "markers",
     marker: {
       color: COLOR.tubaforange,
+      size: 6,
+      symbol: "circle",
+      line: {
+        color: COLOR.gray,
+        width: 1,
+      },
+      opacity: 0.8,
+    },
+    type: "scatter3d",
+  };
+  const trace4 = {
+    x: unpack(bobyqa, "s8-final"),
+    y: unpack(bobyqa, "a1-final"),
+    z: unpack(bobyqa, "a2-final"),
+    name: "LN_BOBYQA",
+    mode: "markers",
+    marker: {
+      color: COLOR.tubafgreen,
       size: 6,
       symbol: "circle",
       line: {
@@ -159,7 +178,7 @@ const initd3 = async () => {
     responsive: true,
   };
 
-  Plotly.newPlot("d4fit", [trace1, trace2, trace3, ref], layout, config);
+  Plotly.newPlot("d4fit", [trace1, trace2, trace3, trace4, ref], layout, config);
 };
 
 // ---------------------------------------------------
