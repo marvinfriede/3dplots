@@ -45,6 +45,7 @@ const initd3 = async () => {
   const mfit2 = await csv("data/mfit2.csv");
   const bfgs = await csv("data/wb97m_fit_nlopt_LBFGS_params.csv");
   const bobyqa = await csv("data/wb97m_fit_nlopt_BOBYQA_params.csv");
+  const lmdif1 = await csv("data/wb97m_fit_minpack_LMDIF1.csv");
 
   const s8start = unpack(mfit2, "s8-start");
   const a1start = unpack(mfit2, "a1-start");
@@ -123,6 +124,24 @@ const initd3 = async () => {
     },
     type: "scatter3d",
   };
+  const trace5 = {
+    x: unpack(lmdif1, "s8-final"),
+    y: unpack(lmdif1, "a1-final"),
+    z: unpack(lmdif1, "a2-final"),
+    name: "MINPACK_LMDIF1",
+    mode: "markers",
+    marker: {
+      color: COLOR.ubyellow,
+      size: 6,
+      symbol: "circle",
+      line: {
+        color: COLOR.gray,
+        width: 1,
+      },
+      opacity: 0.8,
+    },
+    type: "scatter3d",
+  };
   const ref = {
     x: [0.78],
     y: [0.75],
@@ -178,7 +197,7 @@ const initd3 = async () => {
     responsive: true,
   };
 
-  Plotly.newPlot("d4fit", [trace1, trace2, trace3, trace4, ref], layout, config);
+  Plotly.newPlot("d4fit", [trace1, trace2, trace3, trace4, trace5, ref], layout, config);
 };
 
 // ---------------------------------------------------

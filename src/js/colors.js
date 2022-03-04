@@ -6,3 +6,6 @@ export const tubafblue2 = "rgb(35,186,226)";
 export const tubafred = "rgb(181,18,62)";
 export const tubafgreen = "rgb(26,150,43)";
 export const tubaforange = "rgb(224,134,3)";
+
+export const ubblue = "#07529a";
+export const ubyellow = "#ffb90c";
