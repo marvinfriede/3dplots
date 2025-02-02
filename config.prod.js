@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -89,6 +90,10 @@ module.exports = {
         sortClassName: true,
       },
       scriptLoading: "defer",
+    }),
+    // Add ProvidePlugin for process:
+    new webpack.ProvidePlugin({
+      process: "process/browser",
     }),
   ],
   resolve: {
