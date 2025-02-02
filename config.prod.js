@@ -1,12 +1,12 @@
 "use strict";
 
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
-const path = require("path");
 
 module.exports = {
   mode: "production",
@@ -31,16 +31,16 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          MiniCssExtractPlugin.loader, // 2. extract css into files
-          "css-loader", // 1. translate css into commonjs
+          MiniCssExtractPlugin.loader, // extract css into files
+          "css-loader", // translate css into commonjs
         ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader, // 3. extract css into files
-          "css-loader", // 2. turn css into commonjs
-          "sass-loader", // 1. turn sass into css
+          MiniCssExtractPlugin.loader, // extract css into files
+          "css-loader", // turn css into commonjs
+          "sass-loader", // turn sass into css
         ],
       },
     ],
@@ -58,23 +58,6 @@ module.exports = {
         extractComments: false,
       }),
       new CssMinimizerPlugin(),
-      new HtmlWebpackPlugin({
-        chunks: "main",
-        filename: "./index.html",
-        template: path.resolve(__dirname, "src/index.raw.html"),
-        inject: "head",
-        minify: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          collapseInlineTagWhitespace: false,
-          removeAttributeQuotes: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          sortAttributes: true,
-          sortClassName: true,
-        },
-        scriptLoading: "defer",
-      }),
     ],
   },
   plugins: [
@@ -90,7 +73,30 @@ module.exports = {
       ],
     }),
     new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      chunks: "main",
+      filename: "./index.html",
+      template: path.resolve(__dirname, "src/index.raw.html"),
+      inject: "head",
+      minify: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        collapseInlineTagWhitespace: false,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        sortAttributes: true,
+        sortClassName: true,
+      },
+      scriptLoading: "defer",
+    }),
   ],
-  // By default webpack logs warnings if the bundle is bigger than 200kb.
+  resolve: {
+    fallback: {
+      stream: require.resolve("stream-browserify"),
+      buffer: require.resolve("buffer/"),
+      assert: require.resolve("assert/"),
+    },
+  },
   performance: { hints: false },
 };

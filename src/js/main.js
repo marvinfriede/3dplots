@@ -1,5 +1,5 @@
 import { csv } from "d3";
-import Plotly from "plotly.js-dist-min";
+import Plotly from 'plotly.js';
 import * as COLOR from "./colors.js";
 
 // import styles
