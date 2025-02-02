@@ -1,9 +1,10 @@
 "use strict";
 
+const path = require("path");
+const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const DashboardPlugin = require("webpack-dashboard/plugin");
-const path = require("path");
 
 module.exports = {
   mode: "development",
@@ -38,16 +39,16 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          "style-loader", // 2. inject styles into DOM
-          "css-loader", // 1. translate css into commonjs
+          "style-loader", // inject styles into DOM
+          "css-loader", // translate css into commonjs
         ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader", // 3. inject styles into DOM
-          "css-loader", // 2. turn css into commonjs
-          "sass-loader", // 1. turn sass into css
+          "style-loader", // inject styles into DOM
+          "css-loader", // turn css into commonjs
+          "sass-loader", // turn sass into css
         ],
       },
     ],
@@ -69,7 +70,18 @@ module.exports = {
       ],
     }),
     new DashboardPlugin(),
+    // Provide process polyfill:
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+    }),
   ],
+  resolve: {
+    fallback: {
+      stream: require.resolve("stream-browserify"),
+      buffer: require.resolve("buffer/"),
+      assert: require.resolve("assert/"),
+    },
+  },
   // By default webpack logs warnings if the bundle is bigger than 200kb.
   performance: { hints: false },
   watch: false,
